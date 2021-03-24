@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Interplay Edit{% endblock %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+  {% if user.id == interplay.manager.id %}
+    <div class="alert alert-secondary">
+      <h2>Изменить данные по взаимодействию</h2>
+      <h4>{{ interplay.project }}</h4>
+      <h4>{{ interplay.manager.first_name }} {{ interplay.manager.last_name }}</h4>
+
+      <div class="form-grup">
+        <form method="POST">
+          {% csrf_token %}
+          {{ form.media }}
+          {{ form.as_p }}
+          <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-info btn-sm">ОТМЕНИТЬ</a>
+          <button class="btn btn-success btn-sm">СОХРАНИТЬ</button>
+        </form>
+      </div>
+    </div>
+    {% else %}
+      Вам не разрешено здесь находиться! (и Вы об этом, наверно, знаете...)
+    {% endif%}
+{% else %}
+  Вам не разрешено здесь находиться! (и Вы об этом, наверно, знаете...)
+{% endif %}
+
+{% endblock %}

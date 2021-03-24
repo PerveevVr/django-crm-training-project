@@ -1,0 +1,36 @@
+{% load static %}
+
+<div class="alert alert-secondary">
+  <small>
+    <b>{{ interplay.date_comm }}</b>
+    <b> | {{ interplay.get_type_comm_display }}</b><br>
+  </small>  
+  <strong>{{ interplay.project.name }}</strong>
+  <hr>
+  <small>
+    {% if interplay.manager.manager.profile_pic %}
+      <img src="{{ interplay.manager.manager.profile_pic.url }}" class="rounded-circle" width="50" height="50">
+    {% else %}
+      <img src="{% static 'main/images/no_avatar.png' %}" class="rounded-circle" width="50" height="50">     
+    {% endif %}
+    <b>Менеджер: </b>{{ interplay.manager.first_name }} {{ interplay.manager.last_name }}<br>
+    <b>Канал обращения: </b>{{ interplay.get_channel_display }}<br>
+    <b>Качество взаимодействия: </b>
+      {{ interplay.rating|yesno:'Хорошее,Плохое,Пока не понятно' }}
+    <br>
+    <b>Описание: </b>{{ interplay.descript|truncatewords:30|safe }}
+  </small>
+  <hr>
+  <small><p><strong>Теги: {{ interplay.tags.all|join:', ' }}</strong></p></small>
+  <a href="{% url 'interplay_detail' interplay.pk %}" class="badge badge-info">
+    Детальная информация
+  </a>
+  {% if user.id == interplay.manager.id %}
+    <a href="{% url 'interplay_update' interplay.pk %}" class="badge badge-secondary">
+      Изменить
+    </a>
+    <a href="{% url 'interplay_delete' interplay.pk %}" class="badge badge-danger">
+      Удалить
+    </a>
+  {% endif %}
+</div>

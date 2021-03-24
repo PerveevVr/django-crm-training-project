@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Add Interplay{% endblock %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+  <div class="alert alert-secondary">
+    <h2>Добавить новое взаимодействие</h2>
+    <div class="form-grup">
+      <form method="POST">
+        {% csrf_token %}
+        {{ form.media }}
+        {{ form.as_p }}
+        {{ form.management_form }}
+        <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-info btn-sm">ОТМЕНИТЬ</a>
+        <button class="btn btn-success btn-sm">СОХРАНИТЬ</button>
+      </form>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var name = "{{ user.id }}";
+    document.getElementById("elder").value = name;
+  </script>
+
+{% else %}
+  Вам не разрешено здесь находиться! (и Вы об этом, наверно, знаете...)
+{% endif %}
+
+{% endblock %}

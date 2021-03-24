@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Client Detail{% endblock %}
+
+{% block content %}
+
+<div class="alert alert-secondary">
+  <h2>{{ client.name }}</h2>
+  <hr>
+  <p><b>Контактное лицо:</b> {{ client.contact }}</p>
+  <p><b>Адрес:</b> {{ client.address }}</p>
+
+  
+  {% if client.phone_set.all %}
+    <p><b>Телефоны:</b></p>
+    <ul>
+      {% for phon in client.phone_set.all %}
+        <li>
+          {{ phon.get_category_display }}: 
+          <a href="tel:{{ phon }}">{{ phon }}</a>
+        </li>
+      {% endfor%}
+    </ul>
+  {% endif %}
+
+  {% if client.email_set.all %}
+    <p><b>E-mail:</b></p>
+    <ul>
+      {% for email in client.email_set.all %}
+        <!-- <li>{{ email }}</li> -->
+        <li><a href="mailto:{{ email }}">{{ email }}</a>
+      {% endfor%}
+    </ul>
+  {% endif %}
+
+  <p><b>Информация о клиенте:</b></p>
+  {{ client.descript|safe }}
+
+  <hr>
+
+  <small>
+    <p><b>Создание:</b> {{ client.date_creat }}</p>
+    <p><b>Последнее редактирование:</b> {{ client.date_updat }}</p>
+  </small>
+
+  <a href="{% url 'client_list' %}" class="btn btn-info btn-sm">ВЫЙТИ</a>
+  {% if user.is_authenticated %}
+    <a href="{% url 'client_update' client.pk %}" class="btn btn-secondary btn-sm">ИЗМЕНИТЬ</a>
+    <a href="{% url 'client_delete' client.pk %}" class="btn btn-danger btn-sm">УДАЛИТЬ</a>
+  {% endif %}
+</div>
+
+{% endblock %}

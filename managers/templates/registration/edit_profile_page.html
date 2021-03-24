@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+  {% if user.id == manager.user.id %}
+    <div class="alert alert-secondary">
+      <h2>Редактирование профиля менеджера ( {{ user }} )</h2>
+      
+      <div class="form-grup">
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-info btn-sm">ОТМЕНИТЬ</a>
+          <button class="btn btn-success btn-sm">Сохранить профиль</button>
+        </form>
+      </div>
+    </div>
+  {% else %}
+    Вам не разрешено здесь находиться! (и Вы об этом, наверно, знаете...)
+  {% endif %}
+{% else %}
+  Вам не разрешено здесь находиться! (и Вы об этом, наверно, знаете...)
+{% endif %}
+
+{% endblock %}

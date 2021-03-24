@@ -1,0 +1,9 @@
+﻿CRM training project
+(Учебный проект CRM)
+
+
+Users (passwords):
+
+1. manager1 (mn111111)
+2. manager2 (mn222222)
+3. manager3 (mn333333)

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Project Detail{% endblock %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+  <div class="alert alert-secondary">
+    <h2>{{ project.name }}</h2>
+    <hr>
+    <p><b>Клиент:</b> {{ project.client }}</p>
+    <p><b>Стоимость:</b> {{ project.price|floatformat:2 }}</p>
+    <p><b>Информация о клиенте:</b></p>
+    {{ project.descript|safe }}
+    <hr>
+    <small>
+        <p><b>Дата начала проекта:</b> {{ project.start_date }}</p>
+        <p><b>Дата завершения проекта:</b> {{ project.end_date }}</p>
+    </small>
+    <a href="{% url 'project_list' %}" class="btn btn-info btn-sm">ВЫЙТИ</a>
+    <a href="{% url 'project_update' project.pk %}" class="btn btn-secondary btn-sm">ИЗМЕНИТЬ</a>
+    <a href="{% url 'project_delete' project.pk %}" class="btn btn-danger btn-sm">УДАЛИТЬ</a>
+  </div>
+{% else %}
+  Вам не разрешено здесь находиться! (и Вы об этом, наверно, знаете...)
+{% endif %}
+
+{% endblock %}

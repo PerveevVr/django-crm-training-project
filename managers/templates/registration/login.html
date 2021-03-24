@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="alert alert-secondary">
+  <h2>Авторизация ...</h2>
+  <br>
+  <div class="form-grup">
+    <form method="POST">
+      {% csrf_token %}
+      
+      {{ form.as_p }}
+      
+      <!-- <div class="form-group">
+        Имя пользователя
+        <input type="text" class="form-control" name="username" placeholder="Username">
+      </div>
+      
+      <div class="form-group">
+        Пароль
+        <input type="password" class="form-control" name="password" placeholder="Password">
+      </div> -->
+
+      <button class="btn btn-success btn-sm">Войти</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

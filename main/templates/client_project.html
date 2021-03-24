@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}Client-Progect{% endblock %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+  
+  <div class="p-1" style="width: 40%; float: left;">
+    <h2 class="alert alert-secondary">Клиент</h2>
+    <div class="alert alert-secondary">
+      <h3><a href="{% url 'client_interplay' client.pk %}">{{ client.name }}</a></h3>
+      <hr>
+      <p>
+        <b>Колличество проектов</b>
+        <span class="badge badge-primary badge-pill">{{ quantity_project }}</span>
+      </p>
+      <hr>
+      <p><b>Контактное лицо:</b> {{ client.contact }}</p>
+      <p><b>Адрес:</b> {{ client.address }}</p>
+      <p>{{ client.descript|truncatewords:30|safe }}</p>
+      <hr>
+      <small>
+        <p><b>Создание:</b> {{ client.date_creat }}</p>
+        <p><b>Последнее редактирование:</b> {{ client.date_updat }}</p>
+      </small>
+    </div>
+    <a href="{% url 'client_list' %}" class="btn btn-info btn-sm">ВЫЙТИ</a>
+  </div>
+
+  <div class="p-1" style="width: 60%; float: left;">
+    
+    <nav class="navbar navbar-light alert alert-secondary">
+      <h3>Проекты</h3>
+      <a class="nav-link" href="{% url 'project_create' %}">добавить проект (+)</a>
+      <form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Поиск" aria-label="Поиск" name="word">
+        <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Поиск</button>
+      </form>
+    </nav>
+
+    {% for project in projects %}
+      <div class="alert alert-secondary">
+        <h5><a href="{% url 'project_interplay' project.pk %}">
+          {{ project.name }}
+        </a></h5>
+        <small>
+          <p><b>Стоимость:</b> {{ project.price|floatformat:2 }}</p>
+          <p>{{ project.descript|truncatewords:30|safe }}</p>
+          <b>Дата начала проекта: </b>{{ project.start_date }}<br>
+          <b>Дата завершения проекта: </b>{{ project.end_date }}
+          <hr>
+        </small>
+        <a href="{% url 'project_detail' project.pk %}" class="badge badge-info">
+          Детальная информация
+        </a>
+        <a href="{% url 'project_update' project.pk %}" class="badge badge-secondary">
+          Изменить
+        </a>
+        <a href="{% url 'project_delete' project.pk %}" class="badge badge-danger">
+          Удалить
+        </a>
+      </div>
+    {% endfor%}
+  </div>
+
+{% else %}
+  Вам не разрешено здесь находиться! (и Вы об этом, наверно, знаете...)
+{% endif %}
+
+{% endblock %}

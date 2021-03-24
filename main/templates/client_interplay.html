@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block title %}Client-Interplays{% endblock %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+
+  <div class="p-1" style="width: 35%; float: left;">
+    <h2 class="alert alert-secondary">Клиент</h2>
+    <div class="alert alert-secondary">
+      <h3><a href="{% url 'client_detail' client.pk %}">{{ client.name }}</a></h3>
+      <hr>
+      <p>
+        <b>Колличество взаимодействий</b>
+        <span class="badge badge-primary badge-pill">{{ quantity_interplay }}</span>
+      </p>
+      <hr>
+      <p><b>Контактное лицо:</b> {{ client.contact }}</p>
+      <p><b>Адрес:</b> {{ client.address }}</p>
+      <p>{{ client.descript|truncatewords:30|safe }}</p>
+      <hr>
+      <small>
+        <p><b>Создание:</b> {{ client.date_creat }}</p>
+        <p><b>Последнее редактирование:</b> {{ client.date_updat }}</p>
+      </small>
+    </div>
+    <a href="{% url 'client_list' %}" class="btn btn-info btn-sm">ВЫЙТИ</a>
+  </div>
+
+  <div class="p-1" style="width: 65%; float: left;">
+    
+    <a class="nav-link" href="{% url 'interplay_create' %}">Добавить новое взаимодействие (+)</a>
+
+    <nav>
+      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">ВСЕ</a>
+        <a class="nav-link" id="nav-comment-tab" data-toggle="tab" href="#nav-comment" role="tab" aria-controls="nav-comment" aria-selected="false">КОМЕНТАРИИ</a>
+        <a class="nav-link" id="nav-tasks-tab" data-toggle="tab" href="#nav-tasks" role="tab" aria-controls="nav-tasks" aria-selected="false">ЗАДАЧИ</a>
+        <a class="nav-link" id="nav-letter-tab" data-toggle="tab" href="#nav-letter" role="tab" aria-controls="nav-letter" aria-selected="false">ПИСЬМА</a>
+        <a class="nav-link" id="nav-bell-tab" data-toggle="tab" href="#nav-bell" role="tab" aria-controls="nav-bell" aria-selected="false">ЗВОНКИ</a>
+        <a class="nav-link" id="nav-even-tab" data-toggle="tab" href="#nav-even" role="tab" aria-controls="nav-even" aria-selected="false">СОБЫТИЯ</a>
+      </div>
+    </nav>
+    
+    <div class="tab-content" id="nav-tabContent">
+      
+      <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab"><p></p>
+        {% for interplay in interplays %}
+          {% include 'client_interplay_set.html' %}
+        {% endfor%}
+      </div>
+      
+      <div class="tab-pane fade" id="nav-comment" role="tabpanel" aria-labelledby="nav-comment-tab">
+        <p></p>
+        {% for interplay in interplays %}
+          {% if interplay.type_comm == 'comm' %}
+            {% include 'client_interplay_set.html' %}
+          {% endif%}
+        {% endfor %}
+      </div>
+      
+      <div class="tab-pane fade" id="nav-tasks" role="tabpanel" aria-labelledby="nav-tasks-tab">
+        <p></p>
+        {% for interplay in interplays %}
+          {% if interplay.type_comm == 'task' %}
+            {% include 'client_interplay_set.html' %}
+          {% endif%}
+        {% endfor %}
+      </div>
+
+      <div class="tab-pane fade" id="nav-letter" role="tabpanel" aria-labelledby="nav-letter-tab">
+        <p></p>
+        {% for interplay in interplays %}
+          {% if interplay.type_comm == 'lett' %}
+            {% include 'client_interplay_set.html' %}
+          {% endif%}
+        {% endfor %}
+      </div>
+
+      <div class="tab-pane fade" id="nav-bell" role="tabpanel" aria-labelledby="nav-bell-tab">
+        <p></p>
+        {% for interplay in interplays %}
+          {% if interplay.type_comm == 'bell' %}
+            {% include 'client_interplay_set.html' %}
+          {% endif%}
+        {% endfor %}
+      </div>
+      
+      <div class="tab-pane fade" id="nav-even" role="tabpanel" aria-labelledby="nav-even-tab">
+        <p></p>
+        {% for interplay in interplays %}
+          {% if interplay.type_comm == 'even' %}
+            {% include 'client_interplay_set.html' %}
+          {% endif%}
+        {% endfor %}
+      </div>
+      
+    </div>
+
+  </div>
+
+{% else %}
+  Вам не разрешено здесь находиться! (и Вы об этом, наверно, знаете...)
+{% endif %}
+
+{% endblock %}

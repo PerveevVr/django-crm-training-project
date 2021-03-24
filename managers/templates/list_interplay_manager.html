@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}All Interplay User{% endblock %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+  <nav class="nav alert alert-secondary">
+    <h3>Все взаимодействия ( {{ user.first_name }} {{ user.last_name }} )</h3>
+    <a class="nav-link" href="{% url 'interplay_create' %}">добавить взаимодействие (+)</a>
+  </nav>
+
+  {% for interplay in object_list %}
+    <div class="alert alert-secondary">
+      <h5>{{ interplay.project }}</h5>
+      <small>
+        <b>Тип взаимодействия: </b>{{ interplay.get_type_comm_display }}<br>
+        <b>Дата взаимодействия: </b>{{ interplay.date_comm }}<br>
+        <b>Качество взаимодействия: </b>
+        {{ interplay.rating|yesno:'Хорошее,Плохое,Пока не понятно' }}
+        <br>
+        <b>Описание: </b>{{ interplay.descript|truncatewords:30|safe }}
+        <hr>
+      </small>
+      <a href="{% url 'interplay_detail' interplay.pk %}" class="badge badge-info">
+        Детальная информация
+      </a>
+      <a href="{% url 'interplay_update' interplay.pk %}" class="badge badge-secondary">
+        Изменить
+      </a>
+      <a href="{% url 'interplay_delete' interplay.pk %}" class="badge badge-danger">
+        Удалить
+      </a>
+    </div>
+  {% endfor %}
+  
+  {% include "pagination.html" with page=page_obj %}
+
+{% else %}
+  Вам не разрешено здесь находиться! (и Вы об этом, наверно, знаете...)
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block content %}
+
+<div class="alert alert-secondary">
+  <h2>Профиль менеджера ( {{ user }} )</h2>
+  <br>
+
+  {% if page_user.profile_pic %}
+    <img src="{{ page_user.profile_pic.url }}" class="rounded-circle" width="150" height="150">
+  {% else %}
+    <img src="{% static 'main/images/no_avatar.png' %}" class="rounded-circle" width="150" height="150">     
+  {% endif %}
+  <br><br>
+
+  <b>Менеджер: </b>
+  {{ page_user.user.first_name }} {{ page_user.user.last_name }}
+  <br><br>
+  
+  <b>Характеристика: </b><br>
+  {{ page_user.bio }}
+  <br><br>
+
+</div>
+
+{% endblock %}

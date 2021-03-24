@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}CRM 404 Error Page{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+  <h1 class="display-4">Страница не найдена</h1>
+  <p>Извените, ....</p>
+  <hr class="my-4">
+  <a class="btn btn-primary btn-lg" href="{% url 'client_list' %}" role="button">
+    Перейти на домашнию страницу
+  </a>  
+</div>
+{% endblock %}

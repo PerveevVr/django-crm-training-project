@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block title %}Client Edit{% endblock %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+  <div class="alert alert-secondary">
+    <h2>Изменить данные о клиенте</h2>
+    <div class="form-grup">
+      <form method="POST">
+        {% csrf_token %}
+        {{ form.media }}
+        {{ form.as_p }}
+        {{ form.management_form }}
+
+        <!-- Phone -->
+        <fieldset>
+          <p><strong>Телефоны:</strong></p>
+          {{ phone_form.management_form }}
+          {{ phone_form.non_form_errors }}
+          {% for form in phone_form %}
+              {{ form.id }}
+              <div>
+                <div class="p-1" style="width:40%; float:left;">
+                  {{ form.number.errors }}
+                  {{ form.number.label_tag }}
+                  {{ form.number }}
+                </div>
+                <div class="p-1" style="width:60%; float:left;">
+                  {{ form.category.errors }}
+                  {{ form.category.label_tag }}
+                  {{ form.category }}
+                </div>
+                {% if phone_form.can_delete %}
+                  {{ form.DELETE }} - удалить
+                {% endif %}
+              </div>
+          {% endfor %}
+        </fieldset>
+        <br>
+
+        <!-- Email -->
+        <fieldset>
+          <p><strong>Электронная почта</strong></p>
+          {{ email_form.management_form }}
+          {{ email_form.non_form_errors }}
+          {% for form in email_form %}
+              {{ form.id }}
+              <div>
+                <div class="p-1" style="width:60%; float:left;">
+                  {{ form.email.errors }}
+                  {{ form.email.label_tag }}
+                  {{ form.email }}
+                  {% if email_form.can_delete %}
+                    {{ form.DELETE }} - удалить
+                  {% endif %}
+                </div>
+              </div>
+          {% endfor %}
+        </fieldset>
+        <br>
+
+        <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-info btn-sm">ОТМЕНИТЬ</a>
+        <button class="btn btn-success btn-sm">СОХРАНИТЬ</button>
+      </form>
+
+    </div>
+  </div>
+{% else %}
+  Вам не разрешено здесь находиться! (и Вы об этом, наверно, знаете...)
+{% endif %}
+
+{% endblock %}

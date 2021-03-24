@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Edit User{% endblock %}
+
+{% block content %}
+
+<div class="alert alert-secondary">
+  <h2>Редактирование данных пользователя ({{ user.username }})</h2>
+  <div class="form-grup">
+    <form method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="btn btn-success btn-sm">Сохранить профиль</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

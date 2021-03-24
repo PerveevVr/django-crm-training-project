@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Project List{% endblock %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+  
+  <nav class="navbar navbar-light alert alert-secondary">
+    <h3>Все проекты</h3>
+    <a class="nav-link" href="{% url 'project_create' %}">добавить проект (+)</a>
+    <form class="form-inline">
+      <input class="form-control mr-sm-2" type="search" placeholder="Поиск" aria-label="Поиск" name="word">
+      <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Поиск</button>
+    </form>
+  </nav>
+
+  {% for project in object_list %}
+    <div class="alert alert-secondary">
+      <h5><a href="{% url 'project_interplay' project.pk %}">
+        {{ project.name }}
+      </a></h5>
+      <small>
+        <b>Клиент: </b>{{ project.client }}<br>
+        <p><b>Стоимость:</b> {{ project.price|floatformat:2 }}</p>
+        <p>{{ project.descript|truncatewords:30|safe }}</p>
+        <b>Дата начала проекта: </b>{{ project.start_date }}<br>
+        <b>Дата завершения проекта: </b>{{ project.end_date }}
+        <hr>
+      </small>
+      <a href="{% url 'project_detail' project.pk %}" class="badge badge-info">
+        Детальная информация
+      </a>
+      <a href="{% url 'project_update' project.pk %}" class="badge badge-secondary">
+        Изменить
+      </a>
+      <a href="{% url 'project_delete' project.pk %}" class="badge badge-danger">
+        Удалить
+      </a>
+    </div>
+  {% endfor %}
+
+  {% include "pagination.html" with page=page_obj %}
+
+{% else %}
+  Вам не разрешено здесь находиться! (и Вы об этом, наверно, знаете...)
+{% endif %}
+
+{% endblock %}

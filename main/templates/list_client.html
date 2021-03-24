@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}Client List{% endblock %}
+
+{% block content %}
+
+<nav class="navbar navbar-light alert alert-secondary">
+  <h3>Все клиенты</h3>
+  {% if user.is_authenticated %}
+    <a class="nav-link" href="{% url 'client_create' %}">добавить клиента (+)</a>
+  {% endif %}
+  <form class="form-inline">
+    <input class="form-control mr-sm-2" type="search" placeholder="Поиск" aria-label="Поиск" name="word">
+    <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Поиск</button>
+  </form>
+</nav>
+
+{% for client in object_list %}
+  <div class="alert alert-secondary">
+    {% if user.is_authenticated %}
+      <h5><a href="{% url 'client_project' client.pk %}">{{ client.name }}</a></h5>
+    {% else%}
+      <h5><a href="{% url 'client_detail' client.pk %}">{{ client.name }}</a></h5>
+    {% endif %}
+    <small>
+      <b>Контактное лицо: </b>{{ client.contact }}<br>
+      <b>Адрес: </b>{{ client.address }}<br>
+      <p>{{ client.descript|truncatewords:30|safe }}</p>
+      <b>Дата создания: </b>{{ client.date_creat }}
+    </small>
+
+    {% if user.is_authenticated %}
+      <hr>
+      <a href="{% url 'client_detail' client.pk %}" class="badge badge-info">
+        Детальная информация
+      </a>
+      <a href="{% url 'client_update' client.pk %}" class="badge badge-secondary">
+        Изменить
+      </a>
+      <a href="{% url 'client_delete' client.pk %}" class="badge badge-danger">
+        Удалить
+      </a>
+    {% endif %}
+
+  </div>
+{% endfor %}
+
+{% include "pagination.html" with page=page_obj %}
+
+{% endblock %}

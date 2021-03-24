@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Interplay List{% endblock %}
+{% load static %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+  <nav class="navbar navbar-light alert alert-secondary">
+    <h3>Все взаимодействия</h3>
+    <a class="nav-link" href="{% url 'interplay_create' %}">добавить взаимодействие (+)</a>
+    <form class="form-inline">
+      <input class="form-control mr-sm-2" type="search" placeholder="тег, [,тег [...]]" aria-label="Теги" name="tags">
+      <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Поиск по тегам</button>
+    </form>
+  </nav>
+
+  {% for interplay in object_list %}
+    <div class="alert alert-secondary">
+      <h5>{{ interplay.project }}</h5>
+      <small>
+        {% if interplay.manager.manager.profile_pic %}
+          <img src="{{ interplay.manager.manager.profile_pic.url }}" class="rounded-circle" width="50" height="50">
+        {% else %}
+          <img src="{% static 'main/images/no_avatar.png' %}" class="rounded-circle" width="50" height="50">     
+        {% endif %}
+        <b>Менеджер: </b>{{ interplay.manager.first_name }} {{ interplay.manager.last_name }}<br>
+        <b>Тип взаимодействия: </b>{{ interplay.get_type_comm_display }}<br>
+        <b>Дата взаимодействия: </b>{{ interplay.date_comm }}<br>
+        
+        <b>Качество взаимодействия: </b>
+        {{ interplay.rating|yesno:'Хорошее,Плохое,Пока не понятно' }}
+        <br>
+        
+        <b>Описание: </b>{{ interplay.descript|truncatewords:30|safe }}
+        <hr>
+        <p><strong>Теги: {{ interplay.tags.all|join:', ' }}</strong></p>
+      </small>
+      <a href="{% url 'interplay_detail' interplay.pk %}" class="badge badge-info">
+        Детальная информация
+      </a>
+      {% if user.id == interplay.manager.id %}
+        <a href="{% url 'interplay_update' interplay.pk %}" class="badge badge-secondary">
+          Изменить
+        </a>
+        <a href="{% url 'interplay_delete' interplay.pk %}" class="badge badge-danger">
+          Удалить
+        </a>
+      {% endif %}
+    </div>
+  {% endfor %}
+  
+  {% include "pagination.html" with page=page_obj %}
+
+{% else %}
+  Вам не разрешено здесь находиться! (и Вы об этом, наверно, знаете...)
+{% endif %}
+
+{% endblock %}
