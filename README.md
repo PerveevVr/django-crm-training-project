@@ -3,7 +3,7 @@
 This is my django tutorial project!
 Это мой учебный проект на django!
 
-![alt tag](https://github.com/PerveevVr/django-crm-training-project/screenshot/screenshot.png "django project")​
+![alt tag](https://github.com/PerveevVr/django-crm-training-project/blob/main/screenshot/screenshot.png "django project")​
 
 ### Размещение на pythonanywhere.com
 https://perveevvr.pythonanywhere.com/<br/>
