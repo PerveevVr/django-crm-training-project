@@ -1,6 +1,6 @@
 # django-crm-training-project
 
-This is my django tutorial project!
+This is my django tutorial project!<br/>
 Это мой учебный проект на django!
 
 ![alt tag](https://github.com/PerveevVr/django-crm-training-project/blob/main/screenshot/screenshot.png "django project")​
